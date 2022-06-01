@@ -40,7 +40,7 @@ public class Workshop {
             player.add(randomCard());
             enemy.add(randomCard());
         }
-        boolean winner = battle(enemy, player, 5);
+        boolean winner = battle(enemy, player, 6);
         scrollOne();
         System.out.print("And the winner is.");
         TimeUnit.MILLISECONDS.sleep(200);

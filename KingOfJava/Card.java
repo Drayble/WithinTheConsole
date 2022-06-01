@@ -1,4 +1,4 @@
-package KingOfJava;
+package KingOfJava.KingOfJava;
 
 public class Card {
     private int maxHealth;
@@ -245,6 +245,24 @@ public class Card {
         return bottomLine;
     }
 
+//    replacing all of these methods abouve with a single method and a switch statement
+    public String getLine(String line) {
+        return switch (line) {
+            case "1" -> line1;
+            case "2" -> line2;
+            case "3" -> line3;
+            case "4" -> line4;
+            case "5" -> line5;
+            case "6" -> line6;
+            case "7" -> line7;
+            case "bottomImageLine" -> bottomImageLine;
+            case "emptyLine" -> emptyLine;
+            case "nameHealthLine" -> nameHealthLine;
+            case "bottomLine" -> bottomLine;
+            case "topLine" -> topLine;
+            case "damLine" -> damLine;
+        };
+    }
     public String toString() {
         return topLine + "\n" + damLine + "\n" + topImageLine + "\n" + line1 + "\n" + line2 + "\n" + line3 + "\n" + line4 + "\n" + line5 + "\n" + line6 + "\n" + line7 + "\n" + bottomImageLine + "\n" + emptyLine + "\n" + nameHealthLine + "\n" + bottomLine + "\n";
     }

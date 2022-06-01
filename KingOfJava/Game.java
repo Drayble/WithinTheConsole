@@ -30,5 +30,6 @@ public class Game {
         System.out.println("                                                                                                                                                                                                        ");
         System.out.println("                                                                                                                                                                                                        ");
         System.out.println("                                                                                                                                                                                                        ");
+        System.out.println(new Card("The Mighty Rat", 99, 99, "empty", "empty", "empty", "empty", "empty", "|  |       X<:3)~       |  |", "empty"));
     }
 }
