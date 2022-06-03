@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< Updated upstream
     <list default="true" id="b7a4b202-f173-4f9e-afdb-e41882f9db8a" name="Changes" comment="" />
+=======
+    <list default="true" id="976aaac2-d3ba-4fdf-97e6-7e0637f4d016" name="Changes" comment="" />
+>>>>>>> Stashed changes
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -10,7 +14,11 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+<<<<<<< Updated upstream
   <component name="ProjectId" id="2A34vtaoK2DHmqyB0SOYaq3XqDT" />
+=======
+  <component name="ProjectId" id="29xMztMf4tldDAJgppjjhz8m4mT" />
+>>>>>>> Stashed changes
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -18,15 +26,30 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+<<<<<<< Updated upstream
+=======
+    <property name="last_opened_file_path" value="G:/My Drive/AP Computer Science" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+>>>>>>> Stashed changes
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
+<<<<<<< Updated upstream
       <changelist id="b7a4b202-f173-4f9e-afdb-e41882f9db8a" name="Changes" comment="" />
       <created>1654225171729</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1654225171729</updated>
+=======
+      <changelist id="976aaac2-d3ba-4fdf-97e6-7e0637f4d016" name="Changes" comment="" />
+      <created>1654050549636</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1654050549636</updated>
+>>>>>>> Stashed changes
     </task>
     <servers />
   </component>
