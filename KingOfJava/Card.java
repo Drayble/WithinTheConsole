@@ -165,12 +165,12 @@ public class Card {
             System.out.println("ERROR WHILE MAKING OPENSPACE CARD. CHECK IF NEEDS TO BE RENAMED");
         }
     }
-    
+
     //Accessor Methods
     public int getDam() {
         return cardDamage;
     }
-    
+
     public int getCurrHealth() {
         return currentHealth;
     }
@@ -182,7 +182,7 @@ public class Card {
     public String getName() {
         return cardName;
     }
-    
+
     //Mutator Methods
     public void changeHealth(int healthLost) {
         currentHealth -= healthLost;

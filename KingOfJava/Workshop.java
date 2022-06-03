@@ -5,7 +5,11 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
-
+/*
+NOTE:
+This class is just for testing new ideas and projects with the current system
+After they pass all the tests, they get cloned onto the Board class
+ */
 public class Workshop {
     public static int scalePosition;
     public static Scanner scan = new Scanner(System.in);
@@ -36,11 +40,30 @@ public class Workshop {
     public static void main(String[] args) throws InterruptedException {
         ArrayList<Card> enemy = new ArrayList<>();
         ArrayList<Card> player = new ArrayList<>();
+<<<<<<< Updated upstream
         for (int i = 0; i < 100; i++) {
             player.add(randomCard());
             enemy.add(randomCard());
         }
         boolean winner = battle(enemy, player, 5);
+=======
+//        for (int i = 0; i < 100; i++) {
+//            player.add(randomCard());
+//        }
+//        for (int i = 0; i < 6; i++) {
+//            enemy.add(randomCard());
+//        }
+        player.add(new Card("Elephant", 13, 3, "|  |     _    _         |  |", "|  |    /=\\\"\"/=\\        |  |", "|  |    (=(0_0 |=)__    |  |", "|  |     \\_\\ _/_/   )   |  |", "|  |      /_/    _  /\\  |  |", "|  |     /_/ |\\ || |    |  |", "|  |         ~ ~  ~     |  |"));
+        player.add(new Card("The Cat King", 16, 8, "|  |      /\\_mMm_/\\     |  |", "|  |     /  o   o  \\    |  |", "|  |    ( ==  ^  == )   |  |", "|  |     )         (    |  |", "|  |    (           )   |  |", "|  |   ( (  )   (  ) )  |  |", "|  |  (__(__)___(__)__) |  |"));
+        player.add(new Card("Sleeping Kitten", 3, 0, "empty", "empty", "|  |    |\\__/,|   (`\\   |  |", "|  |    |_ _  |.--.) )  |  |", "|  |    ( T   )     /   |  |", "|  |   (((^_(((/(((_/   |  |", "empty"));
+        player.add(new Card("Deer", 6, 2, "|  |   (  (       )  )  |  |", "|  |    `--(_   _)--'   |  |", "|  |         Y-Y        |  |", "|  |        /@@ \\       |  |", "|  |       /     \\      |  |", "|  |       `--'.  \\     |  |", "|  |           |   `._  |  |"));
+        enemy.add(new Card("The Cat King", 16, 8, "|  |      /\\_mMm_/\\     |  |", "|  |     /  o   o  \\    |  |", "|  |    ( ==  ^  == )   |  |", "|  |     )         (    |  |", "|  |    (           )   |  |", "|  |   ( (  )   (  ) )  |  |", "|  |  (__(__)___(__)__) |  |"));
+        enemy.add(new Card("Deer", 6, 2, "|  |   (  (       )  )  |  |", "|  |    `--(_   _)--'   |  |", "|  |         Y-Y        |  |", "|  |        /@@ \\       |  |", "|  |       /     \\      |  |", "|  |       `--'.  \\     |  |", "|  |           |   `._  |  |"));
+        enemy.add(new Card("Elephant", 13, 3, "|  |     _    _         |  |", "|  |    /=\\\"\"/=\\        |  |", "|  |    (=(0_0 |=)__    |  |", "|  |     \\_\\ _/_/   )   |  |", "|  |      /_/    _  /\\  |  |", "|  |     /_/ |\\ || |    |  |", "|  |         ~ ~  ~     |  |"));
+        enemy.add(new Card("Sleeping Kitten", 3, 0, "empty", "empty", "|  |    |\\__/,|   (`\\   |  |", "|  |    |_ _  |.--.) )  |  |", "|  |    ( T   )     /   |  |", "|  |   (((^_(((/(((_/   |  |", "empty"));
+
+        boolean winner = battle(enemy, player, 16);
+>>>>>>> Stashed changes
         scrollOne();
         System.out.print("And the winner is.");
         TimeUnit.MILLISECONDS.sleep(200);
@@ -78,8 +101,8 @@ public class Workshop {
         TimeUnit.MILLISECONDS.sleep(500);
         scrollOne();
         scrollTwo();
-        CardSet enemyBoard = new CardSet(4, "open");
-        CardSet playerBoard = new CardSet(4, "open");
+        KingOfJava.CardSet enemyBoard = new KingOfJava.CardSet(4, "open");
+        KingOfJava.CardSet playerBoard = new KingOfJava.CardSet(4, "open");
         boolean turn = true;
         //player's initial turn (no attack)
         while (turn) {
@@ -122,7 +145,19 @@ public class Workshop {
                     turn = false;
                 }
                 else {
-                    endProcess();
+                    System.out.println("Are you sure you want to quit the game? [Enter y or n]");
+                    String end = scan.next();
+                    while (!end.equals("y") && !end.equals("n")) {
+                        System.out.println("Please enter either \"y\" or \"n\"");
+                        end = scan.next();
+                        end = end.toLowerCase();
+                    }
+                    if (end.equals("y")) {
+                        endProcess();
+                    }
+                    else {
+                        System.out.println();
+                    }
                 }
             }
             else {
@@ -140,7 +175,19 @@ public class Workshop {
                     turn = false;
                 }
                 else {
-                    endProcess();
+                    System.out.println("Are you sure you want to quit the game? [Enter y or n]");
+                    String end = scan.next();
+                    while (!end.equals("y") && !end.equals("n")) {
+                        System.out.println("Please enter either \"y\" or \"n\"");
+                        end = scan.next();
+                        end = end.toLowerCase();
+                    }
+                    if (end.equals("y")) {
+                        endProcess();
+                    }
+                    else {
+                        System.out.println();
+                    }
                 }
             }
         }
@@ -177,31 +224,32 @@ public class Workshop {
     }
 
     /*
-    DIFFICULTIES:
+
+    TODO:
+     DIFFICULTIES:
     1 - 4 = place x cards in empty spaces going left to right (3 and 4 is actually decently hard)
     5 - 8 = places (x - 4) cards left to right prioritizing lanes with player's cards
-    3 = places its most powerful cards against player's weakest cards (the highest health cards against players the highest health cards on the board)
-    4 = Boss difficulty (? undecided ?)
+    9 - 12 = places (x - 8) cards left to right prioritizing empty lanes
+    + 13 - 16 = places (x - 12) cards by first sorting by health (highest to lowest) and then places them in front of player's highest damage cards. puts extras in left to right
+    + 17 - 20 = places (x - 16) cards by first sorting by damage (highest to lowest) and then places them in front of player's lowest max hp cards. puts extras in left to right
+    + 21 - 24 = places (x - 20) cards by first sorting by damage (highest to lowest) and then places them in front of player's highest damage cards. puts extras left to right
+    TODO: all ai's marked with "+" should be incorporated into a boss fight AI
      */
 
     // input this at the beginning of game to quick set up: 1 1 1 1 1 2 1 1 3 1 1 4 1
-    public static void enemysTurn(CardSet enemyBoard, CardSet playerBoard, ArrayList<Card> enemyDeck, int difficulty) throws InterruptedException {
+    public static void enemysTurn(KingOfJava.CardSet enemyBoard, KingOfJava.CardSet playerBoard, ArrayList<Card> enemyDeck, int difficulty) throws InterruptedException {
         /* just a thought, for later fights, or all, the deck that gets inputted are the possible cards the
         enemy can draw from, instead of having a limited list that can run out
         Example here: https://inscryption.fandom.com/wiki/The_Prospector?commentId=4400000000000038464
          */
         scrollOne();
         System.out.print("ENEMY'S TURN. .");
-        TimeUnit.MILLISECONDS.sleep(750);
+        TimeUnit.MILLISECONDS.sleep(600);
         System.out.print("  .");
-        TimeUnit.MILLISECONDS.sleep(750);
+        TimeUnit.MILLISECONDS.sleep(600);
         System.out.print("   .");
-        TimeUnit.MILLISECONDS.sleep(750);
+        TimeUnit.MILLISECONDS.sleep(600);
         scrollTwo();
-
-
-        //TODO: Create more enemy AI's. I think the only thing after that is just to polish this
-        // class and then we're good here! *Don't forget to send all of this code to the Board Class!*
         //places left to right
         if (difficulty == 1 || difficulty == 2 || difficulty == 3 || difficulty == 4) {
             for (int x = 0; x < difficulty; x++) {
@@ -232,16 +280,212 @@ public class Workshop {
                 }
             }
         }
+        //places left to right, prioritizing empty lanes
+        if (difficulty == 9 || difficulty == 10 || difficulty == 11 || difficulty == 12) {
+            for (int x = 0; x < (difficulty - 8); x++) {
+                boolean hasPlacedCard = false;
+                for (int i = 0; i < 4; i++) {
+                    if (!hasPlacedCard && enemyBoard.compareCardTo(i, new Card("open")) && (playerBoard.compareCardTo(i, new Card("open"))) && enemyDeck.size() > 0) {
+                        enemyBoard.replaceCard(i, enemyDeck.remove(0));
+                        hasPlacedCard = true;
+                    }
+                }
+                for (int i = 0; i < 4; i++) {
+                    if (!hasPlacedCard && enemyBoard.compareCardTo(i, new Card("open")) && enemyDeck.size() > 0) {
+                        enemyBoard.replaceCard(i, enemyDeck.remove(0));
+                        hasPlacedCard = true;
+                    }
+                }
+            }
+        }
+        //places the highest health cards against player's highest damage cards
+        if (difficulty == 13 || difficulty == 14 || difficulty == 15 || difficulty == 16) {
+            //sorts enemy's cards by health
+            ArrayList<Card> placeableCards = new ArrayList<>();
+            for (int x = 0; x < (difficulty - 12); x++) {
+                if (enemyDeck.size() > 0 && enemyBoard.compareCardTo(x, new Card("open"))) {
+                    placeableCards.add(enemyDeck.remove(0));
+                }
+            }
+            for (int i = 0; i < placeableCards.size() - 1; i++) {
+                int tankiestCardIndex = i;
+                for (int k = i + 1; k < placeableCards.size(); k++) {
+                    if (placeableCards.get(k).getMaxHealth() > placeableCards.get(tankiestCardIndex).getMaxHealth()) {
+                        tankiestCardIndex = k;
+                    }
+                }
+                ArrayList<Card> temp = new ArrayList<>();
+                temp.add(placeableCards.get(i));
+                placeableCards.set(i, placeableCards.get(tankiestCardIndex));
+                placeableCards.set(tankiestCardIndex, temp.get(0));
+            }
+            //sorts player's cards' indices by damage
+            ArrayList<Integer> playerCardIndices = new ArrayList<>();
+            for (int i = 0; i < 4; i++) {
+                if (!(playerBoard.compareCardTo(i, new Card("open"))) && enemyBoard.compareCardTo(i, new Card("open"))) {
+                    playerCardIndices.add(i);
+                }
+            }
+            for (int i = 0; i < playerCardIndices.size() - 1; i++) {
+                int highestDamageCardIndex = i;
+                for (int k = i + 1; k < playerCardIndices.size(); k++) {
+                    if (playerBoard.getCardDamage(playerCardIndices.get(k)) > playerBoard.getCardDamage(playerCardIndices.get(highestDamageCardIndex))) {
+                        highestDamageCardIndex = k;
+                    }
+                }
+                int temp = playerCardIndices.get(i);
+                playerCardIndices.set(i, playerCardIndices.get(highestDamageCardIndex));
+                playerCardIndices.set(highestDamageCardIndex, temp);
+            }
+            //places enemy cards based on reasons mentioned earlier
+            while (placeableCards.size() > 0) {
+                boolean hasPlacedCard = false;
+                if (playerCardIndices.size() > 0) {
+                    for (int i = 0; i < 4; i++) {
+                        if (!hasPlacedCard && enemyBoard.compareCardTo(i, new Card("open")) && playerCardIndices.get(0) == i) {
+                            enemyBoard.replaceCard(i, placeableCards.remove(0));
+                            playerCardIndices.remove(0);
+                            hasPlacedCard = true;
+                        }
+                    }
+                }
+                for (int i = 0; i < 4; i++) {
+                    if (!hasPlacedCard && enemyBoard.compareCardTo(i, new Card("open"))) {
+                        enemyBoard.replaceCard(i, placeableCards.remove(0));
+                        hasPlacedCard = true;
+                    }
+                }
+            }
+
+        }
+        //places the highest damage cards against player's lowest max health cards
+        if (difficulty == 17 || difficulty == 18 || difficulty == 19 || difficulty == 20) {
+            //sorts enemy's cards by damage
+            ArrayList<Card> placeableCards = new ArrayList<>();
+            for (int x = 0; x < (difficulty - 16); x++) {
+                if (enemyDeck.size() > 0 && enemyBoard.compareCardTo(x, new Card("open"))) {
+                    placeableCards.add(enemyDeck.remove(0));
+                }
+            }
+            for (int i = 0; i < placeableCards.size() - 1; i++) {
+                int highestDamageCardIndex = i;
+                for (int k = i + 1; k < placeableCards.size(); k++) {
+                    if (placeableCards.get(k).getDam() > placeableCards.get(highestDamageCardIndex).getDam()) {
+                        highestDamageCardIndex = k;
+                    }
+                }
+                ArrayList<Card> temp = new ArrayList<>();
+                temp.add(placeableCards.get(i));
+                placeableCards.set(i, placeableCards.get(highestDamageCardIndex));
+                placeableCards.set(highestDamageCardIndex, temp.get(0));
+            }
+            //sorts player's cards' indices by lowest health
+            ArrayList<Integer> playerCardIndices = new ArrayList<>();
+            for (int i = 0; i < 4; i++) {
+                if (!(playerBoard.compareCardTo(i, new Card("open"))) && enemyBoard.compareCardTo(i, new Card("open"))) {
+                    playerCardIndices.add(i);
+                }
+            }
+            for (int i = 0; i < playerCardIndices.size() - 1; i++) {
+                int smallestHealthCardIndex = i;
+                for (int k = i + 1; k < playerCardIndices.size(); k++) {
+                    if (playerBoard.getCardMaxHealth(playerCardIndices.get(k)) < playerBoard.getCardMaxHealth(playerCardIndices.get(smallestHealthCardIndex))) {
+                        smallestHealthCardIndex = k;
+                    }
+                }
+                int temp = playerCardIndices.get(i);
+                playerCardIndices.set(i, playerCardIndices.get(smallestHealthCardIndex));
+                playerCardIndices.set(smallestHealthCardIndex, temp);
+            }
+            //places enemy cards based on reasons mentioned earlier
+            while (placeableCards.size() > 0) {
+                boolean hasPlacedCard = false;
+                if (playerCardIndices.size() > 0) {
+                    for (int i = 0; i < 4; i++) {
+                        if (!hasPlacedCard && enemyBoard.compareCardTo(i, new Card("open")) && playerCardIndices.get(0) == i) {
+                            enemyBoard.replaceCard(i, placeableCards.remove(0));
+                            playerCardIndices.remove(0);
+                            hasPlacedCard = true;
+                        }
+                    }
+                }
+                for (int i = 0; i < 4; i++) {
+                    if (!hasPlacedCard && enemyBoard.compareCardTo(i, new Card("open"))) {
+                        enemyBoard.replaceCard(i, placeableCards.remove(0));
+                        hasPlacedCard = true;
+                    }
+                }
+            }
+        }
+        //places the highest damage cards against player's highest damage cards
+        if (difficulty == 21 || difficulty == 22 || difficulty == 23 || difficulty == 24) {
+            //sorts enemy's cards by damage
+            ArrayList<Card> placeableCards = new ArrayList<>();
+            for (int x = 0; x < (difficulty - 20); x++) {
+                if (enemyDeck.size() > 0 && enemyBoard.compareCardTo(x, new Card("open"))) {
+                    placeableCards.add(enemyDeck.remove(0));
+                }
+            }
+            for (int i = 0; i < placeableCards.size() - 1; i++) {
+                int highestDamageCardIndex = i;
+                for (int k = i + 1; k < placeableCards.size(); k++) {
+                    if (placeableCards.get(k).getDam() > placeableCards.get(highestDamageCardIndex).getDam()) {
+                        highestDamageCardIndex = k;
+                    }
+                }
+                ArrayList<Card> temp = new ArrayList<>();
+                temp.add(placeableCards.get(i));
+                placeableCards.set(i, placeableCards.get(highestDamageCardIndex));
+                placeableCards.set(highestDamageCardIndex, temp.get(0));
+            }
+            //sorts player's cards' indices by highest damage
+            ArrayList<Integer> playerCardIndices = new ArrayList<>();
+            for (int i = 0; i < 4; i++) {
+                if (!(playerBoard.compareCardTo(i, new Card("open"))) && enemyBoard.compareCardTo(i, new Card("open"))) {
+                    playerCardIndices.add(i);
+                }
+            }
+            for (int i = 0; i < playerCardIndices.size() - 1; i++) {
+                int highestDamageCardIndex = i;
+                for (int k = i + 1; k < playerCardIndices.size(); k++) {
+                    if (playerBoard.getCardDamage(playerCardIndices.get(k)) > playerBoard.getCardDamage(playerCardIndices.get(highestDamageCardIndex))) {
+                        highestDamageCardIndex = k;
+                    }
+                }
+                int temp = playerCardIndices.get(i);
+                playerCardIndices.set(i, playerCardIndices.get(highestDamageCardIndex));
+                playerCardIndices.set(highestDamageCardIndex, temp);
+            }
+            //places enemy cards based on reasons mentioned earlier
+            while (placeableCards.size() > 0) {
+                boolean hasPlacedCard = false;
+                if (playerCardIndices.size() > 0) {
+                    for (int i = 0; i < 4; i++) {
+                        if (!hasPlacedCard && enemyBoard.compareCardTo(i, new Card("open")) && playerCardIndices.get(0) == i) {
+                            enemyBoard.replaceCard(i, placeableCards.remove(0));
+                            playerCardIndices.remove(0);
+                            hasPlacedCard = true;
+                        }
+                    }
+                }
+                for (int i = 0; i < 4; i++) {
+                    if (!hasPlacedCard && enemyBoard.compareCardTo(i, new Card("open"))) {
+                        enemyBoard.replaceCard(i, placeableCards.remove(0));
+                        hasPlacedCard = true;
+                    }
+                }
+            }
+        }
     }
 
-    public static void playersTurn(CardSet enemyBoard, CardSet playerBoard, int scalePosition, ArrayList<Card> playerHand, ArrayList<Card> playersDeck) throws InterruptedException {
+    public static void playersTurn(KingOfJava.CardSet enemyBoard, KingOfJava.CardSet playerBoard, int scalePosition, ArrayList<Card> playerHand, ArrayList<Card> playersDeck) throws InterruptedException {
         scrollOne();
         System.out.print("PLAYER'S TURN. .");
-        TimeUnit.MILLISECONDS.sleep(750);
+        TimeUnit.MILLISECONDS.sleep(600);
         System.out.print("  .");
-        TimeUnit.MILLISECONDS.sleep(750);
+        TimeUnit.MILLISECONDS.sleep(600);
         System.out.print("   .");
-        TimeUnit.MILLISECONDS.sleep(750);
+        TimeUnit.MILLISECONDS.sleep(600);
         scrollTwo();
         //prevents from drawing if deck.size() == 0
         if (playersDeck.size() > 0) {
@@ -288,7 +532,19 @@ public class Workshop {
                     turn = false;
                 }
                 else {
-                    endProcess();
+                    System.out.println("Are you sure you want to quit the game? [Enter y or n]");
+                    String end = scan.next();
+                    while (!end.equals("y") && !end.equals("n")) {
+                        System.out.println("Please enter either \"y\" or \"n\"");
+                        end = scan.next();
+                        end = end.toLowerCase();
+                    }
+                    if (end.equals("y")) {
+                        endProcess();
+                    }
+                    else {
+                        System.out.println();
+                    }
                 }
             }
             else {
@@ -306,16 +562,28 @@ public class Workshop {
                     turn = false;
                 }
                 else {
-                    endProcess();
+                    System.out.println("Are you sure you want to quit the game? [Enter y or n]");
+                    String end = scan.next();
+                    while (!end.equals("y") && !end.equals("n")) {
+                        System.out.println("Please enter either \"y\" or \"n\"");
+                        end = scan.next();
+                        end = end.toLowerCase();
+                    }
+                    if (end.equals("y")) {
+                        endProcess();
+                    }
+                    else {
+                        System.out.println();
+                    }
                 }
             }
         }
     }
 
-    public static void attack(CardSet enemyBoard, CardSet playerBoard, boolean playerAttacking) throws InterruptedException {
+    public static void attack(KingOfJava.CardSet enemyBoard, KingOfJava.CardSet playerBoard, boolean playerAttacking) throws InterruptedException {
         if (playerAttacking) {
             for (int i = 0; i < 4; i++) {
-                if (!(playerBoard.compareCardTo(i, new Card("open")))) {
+                if (!(playerBoard.compareCardTo(i, new Card("open"))) && playerBoard.getCardDamage(i) != 0) {
                     if (!(enemyBoard.compareCardTo(i, new Card("open")))) {
                         enemyBoard.changeCardHealth(i, playerBoard.getCardDamage(i));
                     }
@@ -333,7 +601,7 @@ public class Workshop {
         }
         else {
             for (int i = 0; i < 4; i++) {
-                if (!(enemyBoard.compareCardTo(i, new Card("open")))) {
+                if (!(enemyBoard.compareCardTo(i, new Card("open"))) && enemyBoard.getCardDamage(i) != 0) {
                     if (!(playerBoard.compareCardTo(i, new Card("open")))) {
                         playerBoard.changeCardHealth(i, enemyBoard.getCardDamage(i));
                     }
@@ -351,7 +619,7 @@ public class Workshop {
         }
     }
 
-    public static void printBoardPlayersTurn(CardSet opp, CardSet player, int scalePosition, ArrayList<Card> hand, ArrayList<Card> deck) {
+    public static void printBoardPlayersTurn(KingOfJava.CardSet opp, KingOfJava.CardSet player, int scalePosition, ArrayList<Card> hand, ArrayList<Card> deck) {
         System.out.println(opp.printEnemyPlusHand(hand, deck.size(), scalePosition));
         if (scalePosition == 1) {
             System.out.print(" >>");
@@ -405,7 +673,7 @@ public class Workshop {
     1-4 is enemy attacking
     5-8 is player attacking
     */
-    public static void printBoard(CardSet opp, CardSet player, int scalePosition, int turnIndicator) {
+    public static void printBoard(KingOfJava.CardSet opp, KingOfJava.CardSet player, int scalePosition, int turnIndicator) {
         System.out.println(opp.printEnemy(scalePosition));
         //scale
         if (scalePosition == 1) {
@@ -572,7 +840,7 @@ public class Workshop {
         System.exit(0);
     }
 
-    public static void placeCard(CardSet board, ArrayList<Card> hand) throws InterruptedException {
+    public static void placeCard(KingOfJava.CardSet board, ArrayList<Card> hand) throws InterruptedException {
         System.out.println("Please enter the location of the card you would like to play from your hand");
         int handInput = 0;
         try {

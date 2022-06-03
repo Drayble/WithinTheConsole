@@ -7,8 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 
 
-/*
-FUTURE PROJECT:
+/*TODO --> FUTURE PROJECT:
 Add a method that allows players to sort their hands before they end their turn, and take in both if they want to sort,
 and what they want to sort by (ex. sort by health, name, damage, etc.) (make it re-order the arraylist)
 
@@ -46,9 +45,11 @@ public class Board {
         ArrayList<Card> player = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             player.add(randomCard());
+        }
+        for (int i = 0; i < 6; i++) {
             enemy.add(randomCard());
         }
-        boolean winner = battle(enemy, player, 1);
+        boolean winner = battle(enemy, player, 16);
         scrollOne();
         System.out.print("And the winner is.");
         TimeUnit.MILLISECONDS.sleep(200);
@@ -60,8 +61,7 @@ public class Board {
         TimeUnit.MILLISECONDS.sleep(1600);
         if (winner) {
             System.out.println("The Player!");
-        }
-        else {
+        } else {
             System.out.println("The Computer!");
         }
         TimeUnit.MILLISECONDS.sleep(15000);
@@ -86,8 +86,8 @@ public class Board {
         TimeUnit.MILLISECONDS.sleep(500);
         scrollOne();
         scrollTwo();
-        CardSet enemyBoard = new CardSet(4, "open");
-        CardSet playerBoard = new CardSet(4, "open");
+        KingOfJava.CardSet enemyBoard = new KingOfJava.CardSet(4, "open");
+        KingOfJava.CardSet playerBoard = new KingOfJava.CardSet(4, "open");
         boolean turn = true;
         //player's initial turn (no attack)
         while (turn) {
@@ -100,16 +100,14 @@ public class Board {
                 System.out.println("1 - Place a card from your hand");
                 System.out.println("2 - End your turn without attacking (You can't attack on your first turn)");
                 System.out.println("3 - Exit the game -- !! This will NOT save your progress !!");
-            }
-            else {
+            } else {
                 System.out.println("1 - End your turn without attacking (You can't attack on your first turn)");
                 System.out.println("2 - Exit the game -- !! This will NOT save your progress !!");
             }
             int inputNum = 0;
             try {
                 inputNum = scan.nextInt();
-            }
-            catch (InputMismatchException e) {
+            } catch (InputMismatchException e) {
                 scan.nextLine();
             }
             if (playerHand.size() > 0) {
@@ -117,43 +115,59 @@ public class Board {
                     System.out.println("That is not a valid option. Please enter a number 1 - 3.");
                     try {
                         inputNum = scan.nextInt();
-                    }
-                    catch (InputMismatchException e) {
+                    } catch (InputMismatchException e) {
                         scan.nextLine();
                     }
                 }
                 System.out.println();
                 if (inputNum == 1) {
                     placeCard(playerBoard, playerHand);
-                }
-                else if (inputNum == 2) {
+                } else if (inputNum == 2) {
                     turn = false;
+                } else {
+                    System.out.println("Are you sure you want to quit the game? [Enter y or n]");
+                    String end = scan.next();
+                    while (!end.equals("y") && !end.equals("n")) {
+                        System.out.println("Please enter either \"y\" or \"n\"");
+                        end = scan.next();
+                        end = end.toLowerCase();
+                    }
+                    if (end.equals("y")) {
+                        endProcess();
+                    } else {
+                        System.out.println();
+                    }
                 }
-                else {
-                    endProcess();
-                }
-            }
-            else {
+            } else {
                 while (inputNum != 1 && inputNum != 2) {
                     System.out.println("That is not a valid option. Please enter a number 1 - 3.");
                     try {
                         inputNum = scan.nextInt();
-                    }
-                    catch (InputMismatchException e) {
+                    } catch (InputMismatchException e) {
                         scan.nextLine();
                     }
                 }
                 System.out.println();
                 if (inputNum == 1) {
                     turn = false;
-                }
-                else {
-                    endProcess();
+                } else {
+                    System.out.println("Are you sure you want to quit the game? [Enter y or n]");
+                    String end = scan.next();
+                    while (!end.equals("y") && !end.equals("n")) {
+                        System.out.println("Please enter either \"y\" or \"n\"");
+                        end = scan.next();
+                        end = end.toLowerCase();
+                    }
+                    if (end.equals("y")) {
+                        endProcess();
+                    } else {
+                        System.out.println();
+                    }
                 }
             }
         }
         //main battle phase
-        while (scalePosition != -15 && scalePosition!= 15) {
+        while (scalePosition != -15 && scalePosition != 15) {
             //replaces any dead cards with open spaces
             for (int i = 0; i < 4; i++) {
                 if (playerBoard.getCardHealth(i) == 0) {
@@ -167,8 +181,7 @@ public class Board {
                 enemysTurn(enemyBoard, playerBoard, enemysDeck, difficulty);
                 attack(enemyBoard, playerBoard, false);
                 turn = true;
-            }
-            else {
+            } else {
                 playersTurn(enemyBoard, playerBoard, scalePosition, playerHand, playersDeck);
                 attack(enemyBoard, playerBoard, true);
                 turn = false;
@@ -185,39 +198,260 @@ public class Board {
     }
 
     /*
-    DIFFICULTIES:
-    1 - 4 = place x cards in empty spaces going left to right
-    2 = places cards in every empty space every turn
-    3 = places its most powerful cards against player's weakest cards (the highest health cards against players the highest health cards on the board)
-    4 = Boss difficulty (? undecided ?)
+    TODO:
+     DIFFICULTIES:
+    1 - 4 = place x cards in empty spaces going left to right (3 and 4 is actually decently hard)
+    5 - 8 = places (x - 4) cards left to right prioritizing lanes with player's cards
+    9 - 12 = places (x - 8) cards left to right prioritizing empty lanes
+    + 13 - 16 = places (x - 12) cards by first sorting by health (highest to lowest) and then places them in front of player's highest damage cards. puts extras in left to right
+    + 17 - 20 = places (x - 16) cards by first sorting by damage (highest to lowest) and then places them in front of player's lowest max hp cards. puts extras in left to right
+    + 21 - 24 = places (x - 20) cards by first sorting by damage (highest to lowest) and then places them in front of player's highest damage cards. puts extras left to right
+    TODO: all ai's marked with "+" should be incorporated into a boss fight AI
      */
-    public static void enemysTurn(CardSet enemyBoard, CardSet playerBoard, ArrayList<Card> enemyDeck, int difficulty) throws InterruptedException {
+
+    // input this at the beginning of game to quick set up: 1 1 1 1 1 2 1 1 3 1 1 4 1
+    public static void enemysTurn(KingOfJava.CardSet enemyBoard, KingOfJava.CardSet playerBoard, ArrayList<Card> enemyDeck, int difficulty) throws InterruptedException {
+        /* just a thought, for later fights, or all, the deck that gets inputted are the possible cards the
+        enemy can draw from, instead of having a limited list that can run out
+        Example here: https://inscryption.fandom.com/wiki/The_Prospector?commentId=4400000000000038464
+         */
         scrollOne();
         System.out.print("ENEMY'S TURN. .");
-        TimeUnit.MILLISECONDS.sleep(750);
+        TimeUnit.MILLISECONDS.sleep(600);
         System.out.print("  .");
-        TimeUnit.MILLISECONDS.sleep(750);
+        TimeUnit.MILLISECONDS.sleep(600);
         System.out.print("   .");
-        TimeUnit.MILLISECONDS.sleep(750);
+        TimeUnit.MILLISECONDS.sleep(600);
         scrollTwo();
-
-
-        //TODO: Create more enemy AI's. I think the only thing after that is just to polish this class and then we're good here! *Don't forget to send all of this code to the Board Class!*
+        //places left to right
         if (difficulty == 1 || difficulty == 2 || difficulty == 3 || difficulty == 4) {
             for (int x = 0; x < difficulty; x++) {
                 boolean hasPlacedCard = false;
                 for (int i = 0; i < 4; i++) {
-                    if (!hasPlacedCard && enemyBoard.compareCardTo(i, new Card("open"))) {
+                    if (!hasPlacedCard && enemyBoard.compareCardTo(i, new Card("open")) && enemyDeck.size() > 0) {
                         enemyBoard.replaceCard(i, enemyDeck.remove(0));
                         hasPlacedCard = true;
                     }
                 }
             }
         }
+        //places left to right, prioritizing lanes with player cards
+        if (difficulty == 5 || difficulty == 6 || difficulty == 7 || difficulty == 8) {
+            for (int x = 0; x < (difficulty - 4); x++) {
+                boolean hasPlacedCard = false;
+                for (int i = 0; i < 4; i++) {
+                    if (!hasPlacedCard && enemyBoard.compareCardTo(i, new Card("open")) && !(playerBoard.compareCardTo(i, new Card("open"))) && enemyDeck.size() > 0) {
+                        enemyBoard.replaceCard(i, enemyDeck.remove(0));
+                        hasPlacedCard = true;
+                    }
+                }
+                for (int i = 0; i < 4; i++) {
+                    if (!hasPlacedCard && enemyBoard.compareCardTo(i, new Card("open")) && enemyDeck.size() > 0) {
+                        enemyBoard.replaceCard(i, enemyDeck.remove(0));
+                        hasPlacedCard = true;
+                    }
+                }
+            }
+        }
+        //places left to right, prioritizing empty lanes
+        if (difficulty == 9 || difficulty == 10 || difficulty == 11 || difficulty == 12) {
+            for (int x = 0; x < (difficulty - 8); x++) {
+                boolean hasPlacedCard = false;
+                for (int i = 0; i < 4; i++) {
+                    if (!hasPlacedCard && enemyBoard.compareCardTo(i, new Card("open")) && (playerBoard.compareCardTo(i, new Card("open"))) && enemyDeck.size() > 0) {
+                        enemyBoard.replaceCard(i, enemyDeck.remove(0));
+                        hasPlacedCard = true;
+                    }
+                }
+                for (int i = 0; i < 4; i++) {
+                    if (!hasPlacedCard && enemyBoard.compareCardTo(i, new Card("open")) && enemyDeck.size() > 0) {
+                        enemyBoard.replaceCard(i, enemyDeck.remove(0));
+                        hasPlacedCard = true;
+                    }
+                }
+            }
+        }
+        //places the highest health cards against player's highest damage cards
+        if (difficulty == 13 || difficulty == 14 || difficulty == 15 || difficulty == 16) {
+            //sorts enemy's cards by health
+            ArrayList<Card> placeableCards = new ArrayList<>();
+            for (int x = 0; x < (difficulty - 12); x++) {
+                if (enemyDeck.size() > 0 && enemyBoard.compareCardTo(x, new Card("open"))) {
+                    placeableCards.add(enemyDeck.remove(0));
+                }
+            }
+            for (int i = 0; i < placeableCards.size() - 1; i++) {
+                int tankiestCardIndex = i;
+                for (int k = i + 1; k < placeableCards.size(); k++) {
+                    if (placeableCards.get(k).getMaxHealth() > placeableCards.get(tankiestCardIndex).getMaxHealth()) {
+                        tankiestCardIndex = k;
+                    }
+                }
+                ArrayList<Card> temp = new ArrayList<>();
+                temp.add(placeableCards.get(i));
+                placeableCards.set(i, placeableCards.get(tankiestCardIndex));
+                placeableCards.set(tankiestCardIndex, temp.get(0));
+            }
+            //sorts player's cards' indices by damage
+            ArrayList<Integer> playerCardIndices = new ArrayList<>();
+            for (int i = 0; i < 4; i++) {
+                if (!(playerBoard.compareCardTo(i, new Card("open"))) && enemyBoard.compareCardTo(i, new Card("open"))) {
+                    playerCardIndices.add(i);
+                }
+            }
+            for (int i = 0; i < playerCardIndices.size() - 1; i++) {
+                int highestDamageCardIndex = i;
+                for (int k = i + 1; k < playerCardIndices.size(); k++) {
+                    if (playerBoard.getCardDamage(playerCardIndices.get(k)) > playerBoard.getCardDamage(playerCardIndices.get(highestDamageCardIndex))) {
+                        highestDamageCardIndex = k;
+                    }
+                }
+                int temp = playerCardIndices.get(i);
+                playerCardIndices.set(i, playerCardIndices.get(highestDamageCardIndex));
+                playerCardIndices.set(highestDamageCardIndex, temp);
+            }
+            //places enemy cards based on reasons mentioned earlier
+            while (placeableCards.size() > 0) {
+                boolean hasPlacedCard = false;
+                if (playerCardIndices.size() > 0) {
+                    for (int i = 0; i < 4; i++) {
+                        if (!hasPlacedCard && enemyBoard.compareCardTo(i, new Card("open")) && playerCardIndices.get(0) == i) {
+                            enemyBoard.replaceCard(i, placeableCards.remove(0));
+                            playerCardIndices.remove(0);
+                            hasPlacedCard = true;
+                        }
+                    }
+                }
+                for (int i = 0; i < 4; i++) {
+                    if (!hasPlacedCard && enemyBoard.compareCardTo(i, new Card("open"))) {
+                        enemyBoard.replaceCard(i, placeableCards.remove(0));
+                        hasPlacedCard = true;
+                    }
+                }
+            }
 
+        }
+        //places the highest damage cards against player's lowest max health cards
+        if (difficulty == 17 || difficulty == 18 || difficulty == 19 || difficulty == 20) {
+            //sorts enemy's cards by damage
+            ArrayList<Card> placeableCards = new ArrayList<>();
+            for (int x = 0; x < (difficulty - 16); x++) {
+                if (enemyDeck.size() > 0 && enemyBoard.compareCardTo(x, new Card("open"))) {
+                    placeableCards.add(enemyDeck.remove(0));
+                }
+            }
+            for (int i = 0; i < placeableCards.size() - 1; i++) {
+                int highestDamageCardIndex = i;
+                for (int k = i + 1; k < placeableCards.size(); k++) {
+                    if (placeableCards.get(k).getDam() > placeableCards.get(highestDamageCardIndex).getDam()) {
+                        highestDamageCardIndex = k;
+                    }
+                }
+                ArrayList<Card> temp = new ArrayList<>();
+                temp.add(placeableCards.get(i));
+                placeableCards.set(i, placeableCards.get(highestDamageCardIndex));
+                placeableCards.set(highestDamageCardIndex, temp.get(0));
+            }
+            //sorts player's cards' indices by lowest health
+            ArrayList<Integer> playerCardIndices = new ArrayList<>();
+            for (int i = 0; i < 4; i++) {
+                if (!(playerBoard.compareCardTo(i, new Card("open"))) && enemyBoard.compareCardTo(i, new Card("open"))) {
+                    playerCardIndices.add(i);
+                }
+            }
+            for (int i = 0; i < playerCardIndices.size() - 1; i++) {
+                int smallestHealthCardIndex = i;
+                for (int k = i + 1; k < playerCardIndices.size(); k++) {
+                    if (playerBoard.getCardMaxHealth(playerCardIndices.get(k)) < playerBoard.getCardMaxHealth(playerCardIndices.get(smallestHealthCardIndex))) {
+                        smallestHealthCardIndex = k;
+                    }
+                }
+                int temp = playerCardIndices.get(i);
+                playerCardIndices.set(i, playerCardIndices.get(smallestHealthCardIndex));
+                playerCardIndices.set(smallestHealthCardIndex, temp);
+            }
+            //places enemy cards based on reasons mentioned earlier
+            while (placeableCards.size() > 0) {
+                boolean hasPlacedCard = false;
+                if (playerCardIndices.size() > 0) {
+                    for (int i = 0; i < 4; i++) {
+                        if (!hasPlacedCard && enemyBoard.compareCardTo(i, new Card("open")) && playerCardIndices.get(0) == i) {
+                            enemyBoard.replaceCard(i, placeableCards.remove(0));
+                            playerCardIndices.remove(0);
+                            hasPlacedCard = true;
+                        }
+                    }
+                }
+                for (int i = 0; i < 4; i++) {
+                    if (!hasPlacedCard && enemyBoard.compareCardTo(i, new Card("open"))) {
+                        enemyBoard.replaceCard(i, placeableCards.remove(0));
+                        hasPlacedCard = true;
+                    }
+                }
+            }
+        }
+        //places the highest damage cards against player's highest damage cards
+        if (difficulty == 21 || difficulty == 22 || difficulty == 23 || difficulty == 24) {
+            //sorts enemy's cards by damage
+            ArrayList<Card> placeableCards = new ArrayList<>();
+            for (int x = 0; x < (difficulty - 20); x++) {
+                if (enemyDeck.size() > 0 && enemyBoard.compareCardTo(x, new Card("open"))) {
+                    placeableCards.add(enemyDeck.remove(0));
+                }
+            }
+            for (int i = 0; i < placeableCards.size() - 1; i++) {
+                int highestDamageCardIndex = i;
+                for (int k = i + 1; k < placeableCards.size(); k++) {
+                    if (placeableCards.get(k).getDam() > placeableCards.get(highestDamageCardIndex).getDam()) {
+                        highestDamageCardIndex = k;
+                    }
+                }
+                ArrayList<Card> temp = new ArrayList<>();
+                temp.add(placeableCards.get(i));
+                placeableCards.set(i, placeableCards.get(highestDamageCardIndex));
+                placeableCards.set(highestDamageCardIndex, temp.get(0));
+            }
+            //sorts player's cards' indices by highest damage
+            ArrayList<Integer> playerCardIndices = new ArrayList<>();
+            for (int i = 0; i < 4; i++) {
+                if (!(playerBoard.compareCardTo(i, new Card("open"))) && enemyBoard.compareCardTo(i, new Card("open"))) {
+                    playerCardIndices.add(i);
+                }
+            }
+            for (int i = 0; i < playerCardIndices.size() - 1; i++) {
+                int highestDamageCardIndex = i;
+                for (int k = i + 1; k < playerCardIndices.size(); k++) {
+                    if (playerBoard.getCardDamage(playerCardIndices.get(k)) > playerBoard.getCardDamage(playerCardIndices.get(highestDamageCardIndex))) {
+                        highestDamageCardIndex = k;
+                    }
+                }
+                int temp = playerCardIndices.get(i);
+                playerCardIndices.set(i, playerCardIndices.get(highestDamageCardIndex));
+                playerCardIndices.set(highestDamageCardIndex, temp);
+            }
+            //places enemy cards based on reasons mentioned earlier
+            while (placeableCards.size() > 0) {
+                boolean hasPlacedCard = false;
+                if (playerCardIndices.size() > 0) {
+                    for (int i = 0; i < 4; i++) {
+                        if (!hasPlacedCard && enemyBoard.compareCardTo(i, new Card("open")) && playerCardIndices.get(0) == i) {
+                            enemyBoard.replaceCard(i, placeableCards.remove(0));
+                            playerCardIndices.remove(0);
+                            hasPlacedCard = true;
+                        }
+                    }
+                }
+                for (int i = 0; i < 4; i++) {
+                    if (!hasPlacedCard && enemyBoard.compareCardTo(i, new Card("open"))) {
+                        enemyBoard.replaceCard(i, placeableCards.remove(0));
+                        hasPlacedCard = true;
+                    }
+                }
+            }
+        }
     }
 
-    public static void playersTurn(CardSet enemyBoard, CardSet playerBoard, int scalePosition, ArrayList<Card> playerHand, ArrayList<Card> playersDeck) throws InterruptedException {
+    public static void playersTurn(KingOfJava.CardSet enemyBoard, KingOfJava.CardSet playerBoard, int scalePosition, ArrayList<Card> playerHand, ArrayList<Card> playersDeck) throws InterruptedException {
         scrollOne();
         System.out.print("PLAYER'S TURN. .");
         TimeUnit.MILLISECONDS.sleep(750);
@@ -241,16 +475,14 @@ public class Board {
                 System.out.println("1 - Place a card from your hand");
                 System.out.println("2 - End your turn and attack");
                 System.out.println("3 - Exit the game -- !! This will NOT save your progress !!");
-            }
-            else {
+            } else {
                 System.out.println("1 - End your turn and attack");
                 System.out.println("2 - Exit the game -- !! This will NOT save your progress !!");
             }
             int inputNum = 0;
             try {
                 inputNum = scan.nextInt();
-            }
-            catch (InputMismatchException e) {
+            } catch (InputMismatchException e) {
                 scan.nextLine();
             }
             if (playerHand.size() > 0) {
@@ -258,51 +490,66 @@ public class Board {
                     System.out.println("That is not a valid option. Please enter a number 1 - 3.");
                     try {
                         inputNum = scan.nextInt();
-                    }
-                    catch (InputMismatchException e) {
+                    } catch (InputMismatchException e) {
                         scan.nextLine();
                     }
                 }
                 System.out.println();
                 if (inputNum == 1) {
                     placeCard(playerBoard, playerHand);
-                }
-                else if (inputNum == 2) {
+                } else if (inputNum == 2) {
                     turn = false;
+                } else {
+                    System.out.println("Are you sure you want to quit the game? [Enter y or n]");
+                    String end = scan.next();
+                    while (!end.equals("y") && !end.equals("n")) {
+                        System.out.println("Please enter either \"y\" or \"n\"");
+                        end = scan.next();
+                        end = end.toLowerCase();
+                    }
+                    if (end.equals("y")) {
+                        endProcess();
+                    } else {
+                        System.out.println();
+                    }
                 }
-                else {
-                    endProcess();
-                }
-            }
-            else {
+            } else {
                 while (inputNum != 1 && inputNum != 2) {
                     System.out.println("That is not a valid option. Please enter a number 1 - 3.");
                     try {
                         inputNum = scan.nextInt();
-                    }
-                    catch (InputMismatchException e) {
+                    } catch (InputMismatchException e) {
                         scan.nextLine();
                     }
                 }
                 System.out.println();
                 if (inputNum == 1) {
                     turn = false;
-                }
-                else {
-                    endProcess();
+                } else {
+                    System.out.println("Are you sure you want to quit the game? [Enter y or n]");
+                    String end = scan.next();
+                    while (!end.equals("y") && !end.equals("n")) {
+                        System.out.println("Please enter either \"y\" or \"n\"");
+                        end = scan.next();
+                        end = end.toLowerCase();
+                    }
+                    if (end.equals("y")) {
+                        endProcess();
+                    } else {
+                        System.out.println();
+                    }
                 }
             }
         }
     }
 
-    public static void attack(CardSet enemyBoard, CardSet playerBoard, boolean playerAttacking) throws InterruptedException {
+    public static void attack(KingOfJava.CardSet enemyBoard, KingOfJava.CardSet playerBoard, boolean playerAttacking) throws InterruptedException {
         if (playerAttacking) {
             for (int i = 0; i < 4; i++) {
-                if (!(playerBoard.compareCardTo(i, new Card("open")))) {
+                if (!(playerBoard.compareCardTo(i, new Card("open"))) && playerBoard.getCardDamage(i) != 0) {
                     if (!(enemyBoard.compareCardTo(i, new Card("open")))) {
                         enemyBoard.changeCardHealth(i, playerBoard.getCardDamage(i));
-                    }
-                    else {
+                    } else {
                         scalePosition += playerBoard.getCardDamage(i);
                         if (scalePosition > 15) {
                             scalePosition = 15;
@@ -313,14 +560,12 @@ public class Board {
                     scrollTwo();
                 }
             }
-        }
-        else {
+        } else {
             for (int i = 0; i < 4; i++) {
-                if (!(enemyBoard.compareCardTo(i, new Card("open")))) {
+                if (!(enemyBoard.compareCardTo(i, new Card("open"))) && enemyBoard.getCardDamage(i) != 0) {
                     if (!(playerBoard.compareCardTo(i, new Card("open")))) {
                         playerBoard.changeCardHealth(i, enemyBoard.getCardDamage(i));
-                    }
-                    else {
+                    } else {
                         scalePosition -= enemyBoard.getCardDamage(i);
                         if (scalePosition < -15) {
                             scalePosition = -15;
@@ -334,45 +579,39 @@ public class Board {
         }
     }
 
-    public static void printBoardPlayersTurn(CardSet opp, CardSet player, int scalePosition, ArrayList<Card> hand, ArrayList<Card> deck) {
+    public static void printBoardPlayersTurn(KingOfJava.CardSet opp, KingOfJava.CardSet player, int scalePosition, ArrayList<Card> hand, ArrayList<Card> deck) {
         System.out.println(opp.printEnemyPlusHand(hand, deck.size(), scalePosition));
         if (scalePosition == 1) {
             System.out.print(" >>");
-        }
-        else {
+        } else {
             System.out.print("   ");
         }
         System.out.print("|     " + blankLine);
         if (hand.size() > 1) {
             System.out.println("        " + printCardInfoForHand(hand.get(1), 1));
-        }
-        else {
+        } else {
             System.out.println();
         }
         if (scalePosition == 0) {
             System.out.print(" >>");
-        }
-        else {
+        } else {
             System.out.print("   ");
         }
         System.out.print("+     " + normalLine);
         if (hand.size() > 2) {
             System.out.println("        " + printCardInfoForHand(hand.get(2), 2));
-        }
-        else {
+        } else {
             System.out.println();
         }
         if (scalePosition == -1) {
             System.out.print(" >>");
-        }
-        else {
+        } else {
             System.out.print("   ");
         }
         System.out.print("|     " + blankLine);
         if (hand.size() > 3) {
             System.out.println("        " + printCardInfoForHand(hand.get(3), 3));
-        }
-        else {
+        } else {
             System.out.println();
         }
         System.out.println(player.printPlayerPlusHand(hand, scalePosition));
@@ -388,13 +627,12 @@ public class Board {
     1-4 is enemy attacking
     5-8 is player attacking
     */
-    public static void printBoard(CardSet opp, CardSet player, int scalePosition, int turnIndicator) {
+    public static void printBoard(KingOfJava.CardSet opp, KingOfJava.CardSet player, int scalePosition, int turnIndicator) {
         System.out.println(opp.printEnemy(scalePosition));
         //scale
         if (scalePosition == 1) {
             System.out.print(" >>");
-        }
-        else {
+        } else {
             System.out.print("   ");
         }
         System.out.print("|     ");
@@ -432,29 +670,24 @@ public class Board {
         //scale
         if (scalePosition == 0) {
             System.out.print(" >>");
-        }
-        else {
+        } else {
             System.out.print("   ");
         }
         System.out.print("+     ");
         //BAR BETWEEN CARDS
         if (turnIndicator == 1 || turnIndicator == 5) {
             System.out.println(midOne);
-        }
-        else if (turnIndicator == 2 || turnIndicator == 6) {
+        } else if (turnIndicator == 2 || turnIndicator == 6) {
             System.out.println(midTwo);
-        }
-        else if (turnIndicator == 3 || turnIndicator == 7) {
+        } else if (turnIndicator == 3 || turnIndicator == 7) {
             System.out.println(midThree);
-        }
-        else {
+        } else {
             System.out.println(midFour);
         }
         //scale
         if (scalePosition == -1) {
             System.out.print(" >>");
-        }
-        else {
+        } else {
             System.out.print("   ");
         }
         System.out.print("|     ");
@@ -555,13 +788,12 @@ public class Board {
         System.exit(0);
     }
 
-    public static void placeCard(CardSet board, ArrayList<Card> hand) throws InterruptedException {
+    public static void placeCard(KingOfJava.CardSet board, ArrayList<Card> hand) throws InterruptedException {
         System.out.println("Please enter the location of the card you would like to play from your hand");
         int handInput = 0;
         try {
             handInput = scan.nextInt();
-        }
-        catch (InputMismatchException e) {
+        } catch (InputMismatchException e) {
             scan.nextLine();
         }
         //pass condition (input num >= 1 && input num <= playerHand.size())
@@ -569,8 +801,7 @@ public class Board {
             System.out.println("That is not a location of a card in your hand. Please enter a number 1 through " + hand.size() + ".");
             try {
                 handInput = scan.nextInt();
-            }
-            catch (InputMismatchException e) {
+            } catch (InputMismatchException e) {
                 scan.nextLine();
             }
         }
@@ -593,16 +824,14 @@ public class Board {
             laneInput = 0;
             try {
                 laneInput = scan.nextInt();
-            }
-            catch (InputMismatchException e) {
+            } catch (InputMismatchException e) {
                 scan.nextLine();
             }
             while (laneInput < 1 || laneInput > 4) {
                 System.out.println("That is not a valid number of a lane. Please enter a number 1 - 4.");
                 try {
                     laneInput = scan.nextInt();
-                }
-                catch (InputMismatchException e) {
+                } catch (InputMismatchException e) {
                     scan.nextLine();
                 }
             }
@@ -617,8 +846,7 @@ public class Board {
                     response = scan.next();
                     response = response.toLowerCase();
                 }
-            }
-            else {
+            } else {
                 response = "y";
             }
         }
