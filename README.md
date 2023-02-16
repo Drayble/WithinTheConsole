@@ -3,3 +3,6 @@ Welcome to my biggest project so far, Within The Console! This was a text-based 
 
 - Credit to https://www.asciiart.eu/ for different animal art to fit my card size.
 - Thanks again to Daniel Mullins for the inspiration for this.
+
+How to play: 
+Download the full package, and then run Game.java. There are instructions included and it gets a bit easier the more you play. Will add clearer comments later on.
